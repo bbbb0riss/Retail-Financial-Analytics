@@ -9,7 +9,7 @@ import os
 os.makedirs("data/raw", exist_ok=True)
 os.makedirs("data/analytics", exist_ok=True)
 
-print("🏪 ГЕНЕРАЦИЯ ДАННЫХ ДЛЯ RETAIL FINANCIAL ANALYTICS")
+print(" ГЕНЕРАЦИЯ ДАННЫХ ДЛЯ RETAIL FINANCIAL ANALYTICS")
 print("="*60)
 
 # Инициализируем генератор
