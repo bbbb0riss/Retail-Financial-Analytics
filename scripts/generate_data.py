@@ -155,10 +155,13 @@ city_distribution = {
 cities = list(city_distribution.keys())
 city_weights = list(city_distribution.values())
 
+# Исправленная дата
+end_date = datetime(2025, 12, 31)
+
 customers = []
 for customer_id in range(1, 3001):
     city = np.random.choice(cities, p=city_weights)
-    registration_date = fake.date_between(start_date='-3y', end_date='2025-12-31')
+    registration_date = fake.date_between(start_date="-3y", end_date=end_date)
     
     customers.append({
         'customer_id': customer_id,
@@ -172,7 +175,7 @@ customers_df = pd.DataFrame(customers)
 print(f"    Создано {len(customers_df)} клиентов")
 
 # ============= 5. ЗАКАЗЫ =============
-print("\n5️⃣ Генерация заказов...")
+print("\n5️ Генерация заказов...")
 
 # Сезонные коэффициенты
 seasonal_factors = {
@@ -211,7 +214,7 @@ orders_df = pd.DataFrame(orders)
 print(f"    Создано {len(orders_df)} заказов")
 
 # ============= 6. ТОВАРЫ В ЗАКАЗАХ =============
-print("\n6️⃣ Генерация товаров в заказах...")
+print("\n6️ Генерация товаров в заказах...")
 
 order_items_list = []
 item_id = 1
@@ -240,7 +243,7 @@ order_items_df = pd.DataFrame(order_items_list)
 print(f"    Создано {len(order_items_df)} позиций")
 
 # ============= 7. РАСЧЕТ ФИНАНСОВ =============
-print("\n7️⃣ Расчет финансовых показателей...")
+print("\n7️ Расчет финансовых показателей...")
 
 # Обогащаем данные ценами
 order_items_enriched = order_items_df.merge(
@@ -294,9 +297,9 @@ print("    Все файлы сохранены в data/raw/")
 # ============= 9. АНАЛИТИКА =============
 print("\n9️ Создание аналитических отчетов...")
 
-# Ежемесячная статистика
+# ИСПРАВЛЕНО: 'M' заменено на 'ME'
 monthly_stats = orders_df[orders_df['status'] == 'Completed'].groupby(
-    pd.Grouper(key='order_date', freq='M')
+    pd.Grouper(key='order_date', freq='ME')
 ).agg({
     'order_id': 'count',
     'total_sale': 'sum',
@@ -336,5 +339,7 @@ print(f" Выручка: {total_revenue:,.0f} ₽")
 print(f" Прибыль: {total_profit:,.0f} ₽")
 print(f" Маржинальность: {(total_profit/total_revenue*100):.1f}%")
 print(f" Заказов: {total_orders}")
-print(f"  Средний чек: {total_revenue/total_orders:,.0f} ₽")
-print(f"  Клиентов: {completed['customer_id'].nunique()}")
+print(f" Средний чек: {total_revenue/total_orders:,.0f} ₽")
+print(f" Клиентов: {completed['customer_id'].nunique()}")
+
+print("\n✅ Готово! Данные созданы и сохранены.")
